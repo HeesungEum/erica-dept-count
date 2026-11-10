@@ -547,8 +547,7 @@ function render(){
       if (onlyIn && s !== "in") return;
       var chips = "";
       if (KIND_LABEL[u.kind]) chips += ' <span class="chip ' + KIND_LABEL[u.kind][0] + '">' + KIND_LABEL[u.kind][1] + '</span>';
-      if (u.kind === "contract" && u.parent) chips += ' <span class="chip sub">상위: ' + esc(u.parent) + '</span>';
-      else if (u.parent && u.kind !== "smartSub") chips += ' <span class="chip sub">' + esc(u.parent) + '</span>';
+      if (u.parent) chips += ' <span class="chip parent">상위 학부: ' + esc(u.parent) + '</span>';
       var stTxt = s === "in" ? '<span class="st in">● 산정</span>' : s === "rep" ? '<span class="st rep">↻ 하위 전공으로 대체</span>' : '<span class="st out">– 제외</span>';
       rows += '<tr class="' + (s === "in" ? "" : "off") + (u.parent && u.kind !== "contract" ? " child" : "") + '">' +
         '<td class="l name">' + esc(u.n) + chips + '</td>' +

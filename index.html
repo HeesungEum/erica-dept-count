@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>한양대학교 ERICA 학부 학과(부) 수 산정 기준</title>
+<title>한양대 ERICA 학부 체계도 - 학과(부) 수 산정</title>
 <style>
   :root{
     --navy-900:#0b2340;
@@ -112,6 +112,27 @@
   .callout b{font-weight:700;}
 
   /* ---------- Selector ---------- */
+  .page{display:none;}
+  .page.on{display:block;}
+  .pagetabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 22px;}
+  .pagetabs button{
+    display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:8px 10px;
+    background:#fff;border:1.5px solid var(--line);border-radius:12px;cursor:pointer;
+    font-size:14.5px;font-weight:700;color:var(--ink-700);transition:all .15s;
+  }
+  .pagetabs button .pn{
+    flex:none;width:28px;height:28px;border-radius:8px;background:var(--blue-100);color:var(--navy-700);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;
+  }
+  .pagetabs button:hover{border-color:var(--blue-500);}
+  .pagetabs button[aria-selected="true"]{background:var(--navy-800);border-color:var(--navy-800);color:#fff;box-shadow:var(--shadow);}
+  .pagetabs button[aria-selected="true"] .pn{background:var(--gold-500);color:var(--navy-900);}
+  .pagetabs button:focus-visible{outline:3px solid rgba(45,111,191,.35);outline-offset:2px;}
+  @media (max-width:600px){
+    .pagetabs{gap:6px;}
+    .pagetabs button{flex-direction:column;gap:4px;font-size:12.5px;padding:8px 4px;}
+  }
+  nav.desktop-nav a.active{background:rgba(255,255,255,0.14);color:#fff;}
   .selector{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;margin-bottom:18px;}
   @media (max-width:720px){.selector{grid-template-columns:1fr;}}
   .field label{display:block;font-size:12px;font-weight:700;color:var(--ink-500);letter-spacing:.04em;margin-bottom:6px;}
@@ -221,14 +242,14 @@
   <a class="brand" href="#top">
     <span class="brand-mark">HY</span>
     <span class="brand-text">
-      <b>한양대학교 ERICA 학부</b>
+      <b>한양대 ERICA 학부 체계도</b>
       <span>학과(부) 수 산정 기준</span>
     </span>
   </a>
   <nav class="desktop-nav">
-    <a href="#sec1">Ⅰ. 산정 결과</a>
-    <a href="#sec2">Ⅱ. 기준별 비교</a>
-    <a href="#sec3">Ⅲ. 학과(부) 목록</a>
+    <a href="#p1" data-page="1">Ⅰ. 산정 결과</a>
+    <a href="#p2" data-page="2">Ⅱ. 기준별 비교</a>
+    <a href="#p3" data-page="3">Ⅲ. 학과(부) 목록</a>
   </nav>
 </header>
 
@@ -245,22 +266,31 @@
 <div class="shell">
 <main>
 
-<!-- ================= SECTION I ================= -->
-<section class="doc-section" id="sec1">
+<!-- 공통: 학년도·산정 기준 선택 (모든 페이지에서 유지) -->
+<div class="card" id="pickerCard">
+  <div class="selector" style="margin-bottom:0">
+    <div class="field">
+      <label for="selYear">학년도</label>
+      <select id="selYear"></select>
+    </div>
+    <div class="field">
+      <label for="selLevel">산정 기준</label>
+      <select id="selLevel"></select>
+    </div>
+  </div>
+</div>
+
+<div class="pagetabs" id="pageTabs" role="tablist" aria-label="페이지 구분">
+  <button type="button" role="tab" data-page="1"><span class="pn">Ⅰ</span>산정 결과</button>
+  <button type="button" role="tab" data-page="2"><span class="pn">Ⅱ</span>기준별 비교</button>
+  <button type="button" role="tab" data-page="3"><span class="pn">Ⅲ</span>학과(부) 목록</button>
+</div>
+
+<!-- ================= PAGE I ================= -->
+<section class="doc-section page" id="sec1">
   <div class="sec-head"><div class="sec-num">Ⅰ</div><h2>산정 결과</h2></div>
 
   <div class="card">
-    <div class="selector">
-      <div class="field">
-        <label for="selYear">학년도</label>
-        <select id="selYear"></select>
-      </div>
-      <div class="field">
-        <label for="selLevel">산정 기준</label>
-        <select id="selLevel"></select>
-      </div>
-    </div>
-
     <div id="resultBox"></div>
     <div class="scale" id="scale" role="group" aria-label="산정 기준 바로가기"></div>
   </div>
@@ -269,7 +299,7 @@
 </section>
 
 <!-- ================= SECTION II ================= -->
-<section class="doc-section" id="sec2">
+<section class="doc-section page" id="sec2">
   <div class="sec-head"><div class="sec-num">Ⅱ</div><h2>산정 기준별 비교</h2></div>
   <div class="card">
     <div id="compareBox"></div>
@@ -277,7 +307,7 @@
 </section>
 
 <!-- ================= SECTION III ================= -->
-<section class="doc-section" id="sec3">
+<section class="doc-section page" id="sec3">
   <div class="sec-head"><div class="sec-num">Ⅲ</div><h2>학과(부) 목록</h2></div>
   <div class="card">
     <div class="list-tools">
@@ -305,7 +335,7 @@
 </div>
 
 <footer>
-  <b>한양대학교 ERICA 학부</b> · 학과(부) 수 산정 기준<br>
+  <b>한양대 ERICA 학부 체계도</b> · 학과(부) 수 산정 기준<br>
   <span id="footSrc"></span>
 </footer>
 
@@ -477,7 +507,7 @@ function countAt(d, lv){
   return n;
 }
 
-var state = { year: 2026, level: 0, type: "all" };
+var state = { year: 2026, level: 0, type: "all", page: 1 };
 
 function qText(u){
   var a = u.q ? u.q : (u.qx ? "" : "-");
@@ -598,7 +628,24 @@ function render(){
   document.getElementById("footSrc").textContent = "작성기준일 " + d.asOf + " · 출처: " + d.source;
 
   /* URL 해시 (공유용) */
-  try { history.replaceState(null, "", "#y=" + state.year + "&c=" + (lv + 1)); } catch (e) {}
+  saveHash();
+}
+
+/* 페이지 전환 (Ⅰ/Ⅱ/Ⅲ) */
+function saveHash(){
+  try { history.replaceState(null, "", "#y=" + state.year + "&c=" + (state.level + 1) + "&p=" + state.page); } catch (e) {}
+}
+function showPage(p, scroll){
+  state.page = p;
+  [1, 2, 3].forEach(function(i){ document.getElementById("sec" + i).classList.toggle("on", i === p); });
+  [].forEach.call(document.querySelectorAll("#pageTabs button"), function(b){
+    b.setAttribute("aria-selected", +b.getAttribute("data-page") === p);
+  });
+  [].forEach.call(document.querySelectorAll("nav.desktop-nav a"), function(a){
+    a.classList.toggle("active", +a.getAttribute("data-page") === p);
+  });
+  saveHash();
+  if (scroll) document.getElementById("pickerCard").scrollIntoView({ block: "start" });
 }
 
 function init(){
@@ -607,6 +654,15 @@ function init(){
     return '<option value="' + y + '">' + y + '학년도' + (DATA[y] ? "" : " (준비 중)") + '</option>';
   }).join("");
 
+  var pm = /p=([123])/.exec(location.hash);
+  state.page = pm ? +pm[1] : 1;
+  document.getElementById("pageTabs").addEventListener("click", function(e){
+    var b = e.target.closest("button[data-page]"); if (b) showPage(+b.getAttribute("data-page"), true);
+  });
+  document.querySelector("nav.desktop-nav").addEventListener("click", function(e){
+    var a = e.target.closest("a[data-page]"); if (!a) return;
+    e.preventDefault(); showPage(+a.getAttribute("data-page"), true);
+  });
   var m = /y=(\d{4})&c=(\d)/.exec(location.hash);
   if (m && DATA.hasOwnProperty(m[1])){
     state.year = +m[1];
@@ -626,6 +682,7 @@ function init(){
     state.type = b.getAttribute("data-t"); render();
   });
   render();
+  showPage(state.page, false);
 }
 init();
 </script>

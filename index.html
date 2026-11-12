@@ -213,6 +213,44 @@
     .hero{padding:34px 18px 30px;}
     .shell{padding:0 14px;}
   }
+
+  /* ---------- 로그인 게이트 ---------- */
+  body:not(.authed) .hero, body:not(.authed) .shell, body:not(.authed) footer{display:none;}
+  body.authed .gate{display:none;}
+  .gate{min-height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center;padding:28px 16px;}
+  .gate-card{
+    width:100%;max-width:440px;background:var(--card);border:1px solid var(--line);border-radius:18px;
+    box-shadow:var(--shadow-lg);padding:34px 28px 28px;text-align:center;
+  }
+  .gate-card .brand-mark{width:52px;height:52px;border-radius:13px;font-size:19px;margin:0 auto 16px;}
+  .gate-card h1{font-size:21px;margin:0 0 8px;color:var(--navy-900);}
+  .gate-card p{margin:0 0 20px;font-size:13.8px;color:var(--ink-700);}
+  .gbtn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;
+    background:#fff;border:1.5px solid var(--line);border-radius:11px;font-size:14.5px;font-weight:700;color:var(--ink-900);cursor:pointer;
+    transition:border-color .15s,box-shadow .15s;
+  }
+  .gbtn:hover:not(:disabled){border-color:var(--blue-500);box-shadow:var(--shadow);}
+  .gbtn:disabled{opacity:.55;cursor:default;}
+  .gbtn:focus-visible{outline:3px solid rgba(45,111,191,.35);}
+  .gate-msg{margin:14px 0 0!important;font-size:13px!important;color:var(--ink-500)!important;min-height:20px;}
+  .gate-msg.err{color:#b3261e!important;}
+  .userbar{display:flex;align-items:center;gap:10px;color:#dce7f7;font-size:12.5px;min-width:0;}
+  .userbar[hidden]{display:none;}
+  .userbar span{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .userbar button{
+    background:rgba(255,255,255,0.14);border:none;color:#fff;font-size:12.5px;font-weight:700;
+    padding:8px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;min-height:36px;
+  }
+  .userbar button:hover{background:rgba(255,255,255,0.24);}
+  @media (max-width:600px){.userbar span{display:none;}}
+  .admin-box{margin-bottom:40px;}
+  .admin-box textarea{width:100%;min-height:140px;border:1.5px solid var(--line);border-radius:10px;padding:10px;font:12px/1.5 Consolas,monospace;}
+  .admin-box .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0;}
+  .admin-box .btn{background:var(--navy-800);color:#fff;border:none;border-radius:10px;padding:11px 18px;font-weight:700;font-size:13.5px;cursor:pointer;min-height:44px;}
+  .admin-box .btn:disabled{opacity:.5;}
+  .admin-box select{height:44px;border:1.5px solid var(--line);border-radius:10px;padding:0 10px;font-size:14px;}
+  #adminMsg{font-size:13px;color:var(--ink-700);}
 </style>
 </head>
 <body>
@@ -230,7 +268,25 @@
     <a href="#sec2">Ⅱ. 기준별 비교</a>
     <a href="#sec3">Ⅲ. 학과(부) 목록</a>
   </nav>
+  <div class="userbar" id="userBar" hidden>
+    <span id="userEmail"></span>
+    <button type="button" id="btnLogout">로그아웃</button>
+  </div>
 </header>
+
+<!-- 로그인 화면: 로그인 전에는 본문이 표시되지 않습니다 -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="brand-mark">HY</div>
+    <h1>한양대 ERICA 학부 학과수</h1>
+    <p>한양대학교 구글 계정(@hanyang.ac.kr)으로 로그인한 후 이용할 수 있습니다.</p>
+    <button type="button" class="gbtn" id="btnLogin" disabled>
+      <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.5 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7-10.1 7-17.6z"/><path fill="#FBBC05" d="M10.5 28.7a14.5 14.5 0 0 1 0-9.4l-7.9-6.1a24 24 0 0 0 0 21.6l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.3 0-11.6-4-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
+      한양대 구글 계정으로 로그인
+    </button>
+    <p class="gate-msg" id="gateMsg" role="status">로그인 상태 확인 중…</p>
+  </div>
+</div>
 
 <div id="top"></div>
 <div class="hero">
@@ -304,6 +360,24 @@
 </main>
 </div>
 
+<div class="shell">
+<section class="admin-box" id="adminBox" hidden>
+  <div class="card">
+    <h3>데이터 관리 <span class="tag">관리자</span></h3>
+    <p style="font-size:13px;color:var(--ink-700);margin:0 0 8px">학년도별 데이터(JSON)를 올립니다. 관리자 계정이 아니면 저장이 거부됩니다.</p>
+    <div class="row">
+      <select id="adminYear" aria-label="학년도"></select>
+      <input type="file" id="adminFile" accept="application/json,.json" aria-label="JSON 파일 선택">
+    </div>
+    <textarea id="adminText" placeholder="JSON 내용" aria-label="JSON 내용"></textarea>
+    <div class="row">
+      <button type="button" class="btn" id="adminSave">저장</button>
+      <span id="adminMsg" role="status"></span>
+    </div>
+  </div>
+</section>
+</div>
+
 <footer>
   <b>한양대 ERICA 학부 학과수</b> · 학과(부) 수 산정 기준<br>
   <span id="footSrc"></span>
@@ -311,139 +385,16 @@
 
 <script>
 /* =====================================================================
-   데이터 (학년도별)
-   - DATA[학년도] 를 채우면 학년도 드롭다운에서 바로 선택할 수 있습니다.
-   - DATA[학년도] = null 이면 "준비 중" 안내가 표시됩니다.
+   데이터는 이 파일에 들어 있지 않고, 로그인 후 Firestore(datasets/{학년도})에서 불러옵니다.
+   데이터 형식(JSON) 요약
    - unit.kind : base(일반) | worker(재직자전형) | contract(계약학과) | lions(자율전공)
-                 smartSub(스마트융합공학부 하위전공) | parent(상위 학부)
+                 smartSub(스마트융합공학부 하위전공) | parent(상위 학부) | major(하위 전공)
+   - unit.type : major(전공학부) | free(자율전공학부)
    - level.feats: 해당 기준에서 새로 산정에 추가되는 항목
-                 extra(재직자·계약학과) / lions / smartSplit / parents
-   - q: 정원내 입학정원, qx: 정원외 입학정원 (편제정원표 기준)
+                 extra / lions / smartSplit / parents / subMajors
+   - q: 정원내 입학정원, qx: 정원외 입학정원
    ===================================================================== */
-var DATA = {
-  2026: {
-    label: "2026학년도",
-    asOf: "2026.02.02.",
-    source: "2026학년도 ERICA캠퍼스(학부) 편제정원표",
-    levels: [
-      { short:"정규 학과(부) 기준",
-        desc:"융합시스템공학과·회계세무학과(재직자전형), 스마트융합공학부·국방전략기술공학과(계약학과), LIONS자율전공학부를 제외한 학과(부)만 산정합니다.",
-        add:"기본 산정", feats:[] },
-      { short:"재직자전형·계약학과 포함",
-        desc:"기본 기준에 재직자전형(융합시스템공학과·회계세무학과)과 계약학과(스마트융합공학부·국방전략기술공학과) 4개를 포함합니다.",
-        add:"재직자전형·계약학과 4개 포함", feats:["extra"] },
-      { short:"LIONS자율전공학부 포함",
-        desc:"LIONS자율전공학부를 전계열·자연계열·인문사회계열 3개로 나누어 추가 포함합니다.",
-        add:"LIONS자율전공학부 3개 포함", feats:["lions"] },
-      { short:"스마트융합 하위전공 분리",
-        desc:"스마트융합공학부(계약학과)는 하위 전공별로 별도 모집·운영하므로 1개 학부를 6개 전공으로 산정합니다.",
-        add:"스마트융합공학부 1개 → 하위 전공 6개", feats:["smartSplit"] },
-      { short:"상위 학부 별도 포함",
-        desc:"하위 전공을 묶는 상위 학부 6개(건축학부·컴퓨터학부·차세대반도체융합공학부·바이오신약융합학부·국방지능정보융합공학부·디자인계열)를 별도로 포함합니다.",
-        add:"상위 학부·계열 6개 별도 포함", feats:["parents"] },
-      { short:"ICT융합·스포츠 하위전공 포함",
-        desc:"ICT융합학부(데이터인텔리스전공·디자인컨버젼스전공)와 스포츠과학부(스포츠코칭전공·스포츠문화전공)의 하위 전공 4개를 추가로 포함합니다. 해당 전공에는 별도 입학정원이 없습니다.",
-        add:"ICT융합학부·스포츠과학부 하위 전공 4개 포함", feats:["subMajors"] }
-    ],
-    defs: [
-      "<b>재직자전형</b> — 융합시스템공학과, 회계세무학과 (산업체재직자학과, 정원내·정원외 병행 모집)",
-      "<b>계약학과</b> — 스마트융합공학부, 국방전략기술공학과 (정원외 모집)",
-      "<b>LIONS자율전공학부</b> — 1학년 자율전공학부로 입학 시에만 존재하며 졸업할 수 없는 모집단위",
-      "<b>전공학부</b> — 세부전공을 두는 학부 (건축학부, 스마트융합공학부, ICT융합학부, 스포츠과학부, 국방지능정보융합공학부)",
-      "<b>자율전공학부</b> — 입학 후 동일캠퍼스 내의 학부(과) 또는 전공을 선택하여 이수하는 학부 (컴퓨터학부, 디자인계열, 차세대반도체융합공학부, 바이오신약융합학부, LIONS자율전공학부 3개)",
-      "<b>상위 학부</b> — 하위 전공을 묶는 학부로, 일부는 별도 모집정원이 있고 2학년 때 하위 전공을 자유롭게 선택"
-    ],
-    notes: [
-      "※ ( )는 정원외 정원입니다. 융합시스템공학과·회계세무학과는 정원내 및 정원외를 병행 모집합니다.",
-      "※ 컴퓨터학부·차세대반도체융합공학부·바이오신약융합학부·디자인계열은 하위 전공 정원과 별도로 학부(계열) 단위 모집정원이 있습니다.",
-      "※ ICT융합학부(데이터인텔리스전공·디자인컨버젼스전공)와 스포츠과학부(스포츠코칭전공·스포츠문화전공)의 하위 전공에는 전공별 입학정원이 없습니다.",
-      "※ 디자인계열은 계열 통합 모집(138명)이며, 편제정원표상 학과는 주얼리·패션디자인학과·융합디자인학부·영상디자인학과 3개로 산정합니다."
-    ],
-    colleges: [
-      { name:"공학대학", units:[
-        { n:"건축학부", kind:"parent", type:"major", q:"-" },
-        { n:"건축학전공(5년)", kind:"base", parent:"건축학부", q:"26" },
-        { n:"건축공학전공", kind:"base", parent:"건축학부", q:"26" },
-        { n:"건설환경공학과", kind:"base", q:"30" },
-        { n:"교통·물류공학과", kind:"base", q:"27" },
-        { n:"전자공학부", kind:"base", q:"116" },
-        { n:"배터리소재화학공학과", kind:"base", q:"63" },
-        { n:"기계공학과", kind:"base", q:"76" },
-        { n:"산업경영공학과", kind:"base", q:"27" },
-        { n:"로봇공학과", kind:"base", q:"35" },
-        { n:"에너지바이오학과", kind:"base", q:"33" },
-        { n:"해양융합공학과", kind:"base", q:"26" },
-        { n:"융합시스템공학과", kind:"worker", q:"1", qx:"45" },
-        { n:"스마트융합공학부", kind:"contract", id:"smart", type:"major", qx:"170" },
-        { n:"소재·부품융합전공", kind:"smartSub", parent:"스마트융합공학부", qx:"24" },
-        { n:"로봇융합전공", kind:"smartSub", parent:"스마트융합공학부", qx:"24" },
-        { n:"스마트ICT융합전공", kind:"smartSub", parent:"스마트융합공학부", qx:"24" },
-        { n:"건축IT융합전공", kind:"smartSub", parent:"스마트융합공학부", qx:"24" },
-        { n:"스마트건축구조시공융합전공", kind:"smartSub", parent:"스마트융합공학부", qx:"54" },
-        { n:"스마트컨스트럭션융합전공", kind:"smartSub", parent:"스마트융합공학부", qx:"20" }
-      ]},
-      { name:"소프트웨어융합대학", units:[
-        { n:"컴퓨터학부", kind:"parent", type:"free", q:"20" },
-        { n:"컴퓨터전공", kind:"base", parent:"컴퓨터학부", q:"44" },
-        { n:"지능형클라우드전공", kind:"base", parent:"컴퓨터학부", q:"12" },
-        { n:"ICT융합학부", kind:"base", type:"major", q:"36" },
-        { n:"데이터인텔리스전공", kind:"major", parent:"ICT융합학부" },
-        { n:"디자인컨버젼스전공", kind:"major", parent:"ICT융합학부" },
-        { n:"인공지능학과", kind:"base", q:"40" },
-        { n:"수리데이터사이언스학과", kind:"base", q:"22" }
-      ]},
-      { name:"약학대학", units:[
-        { n:"약학과(6년)", kind:"base", q:"30" }
-      ]},
-      { name:"첨단융합대학", units:[
-        { n:"차세대반도체융합공학부", kind:"parent", type:"free", q:"48" },
-        { n:"신소재·반도체공학전공", kind:"base", parent:"차세대반도체융합공학부", q:"52" },
-        { n:"반도체·디스플레이공학전공", kind:"base", parent:"차세대반도체융합공학부", q:"30" },
-        { n:"바이오신약융합학부", kind:"parent", type:"free", q:"73" },
-        { n:"분자의약전공", kind:"base", parent:"바이오신약융합학부", q:"35" },
-        { n:"바이오나노공학전공", kind:"base", parent:"바이오신약융합학부", q:"27" },
-        { n:"국방지능정보융합공학부", kind:"parent", type:"major", q:"-" },
-        { n:"지능정보양자공학전공", kind:"base", parent:"국방지능정보융합공학부", q:"63" },
-        { n:"국방전략기술공학과", kind:"contract", parent:"국방지능정보융합공학부", qx:"40" }
-      ]},
-      { name:"글로벌문화통상대학", units:[
-        { n:"글로벌문화통상학부", kind:"base", q:"100" }
-      ]},
-      { name:"커뮤니케이션&컬처대학", units:[
-        { n:"광고홍보학과", kind:"base", q:"44" },
-        { n:"미디어학과", kind:"base", q:"44" },
-        { n:"문화인류학과", kind:"base", q:"23" },
-        { n:"문화콘텐츠학과", kind:"base", q:"26" }
-      ]},
-      { name:"경상대학", units:[
-        { n:"경제학부", kind:"base", q:"57" },
-        { n:"경영학부", kind:"base", q:"88" },
-        { n:"보험계리학과", kind:"base", q:"20" },
-        { n:"회계세무학과", kind:"worker", q:"1", qx:"67" }
-      ]},
-      { name:"디자인대학", units:[
-        { n:"디자인계열", kind:"parent", type:"free", q:"138" },
-        { n:"주얼리·패션디자인학과", kind:"base", parent:"디자인계열", q:"-" },
-        { n:"융합디자인학부", kind:"base", parent:"디자인계열", q:"-" },
-        { n:"영상디자인학과", kind:"base", parent:"디자인계열", q:"-" }
-      ]},
-      { name:"예체능대학", units:[
-        { n:"스포츠과학부", kind:"base", type:"major", q:"71" },
-        { n:"스포츠코칭전공", kind:"major", parent:"스포츠과학부" },
-        { n:"스포츠문화전공", kind:"major", parent:"스포츠과학부" },
-        { n:"무용예술학과", kind:"base", q:"25" },
-        { n:"실용음악학과", kind:"base", q:"25" }
-      ]},
-      { name:"LIONS칼리지", units:[
-        { n:"LIONS자율전공학부(전계열)", kind:"lions", type:"free", q:"223" },
-        { n:"LIONS자율전공학부(자연계열)", kind:"lions", type:"free", q:"110" },
-        { n:"LIONS자율전공학부(인문사회계열)", kind:"lions", type:"free", q:"95" }
-      ]}
-    ]
-  },
-  /* 2027학년도: 편제정원표 확정 후 위 2026 구조와 동일하게 입력 */
-  2027: null
-};
+var DATA = {};
 
 /* ===================== 로직 ===================== */
 var KIND_LABEL = { worker:["worker","재직자전형"], contract:["contract","계약학과"],
@@ -627,7 +578,107 @@ function init(){
   });
   render();
 }
-init();
+var started = false;
+/* 로그인 성공 후 모듈 스크립트가 호출합니다. data = { 2026: {...}|null, 2027: ... } */
+window.startApp = function(data){
+  DATA = data;
+  if (started) return;
+  started = true;
+  init();
+};
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { FIREBASE_CONFIG, ALLOWED_DOMAIN, YEARS } from "./firebase-config.js";
+
+var $ = function(id){ return document.getElementById(id); };
+var gateMsg = $("gateMsg"), btnLogin = $("btnLogin");
+function msg(t, err){ gateMsg.textContent = t; gateMsg.classList.toggle("err", !!err); }
+
+if (!FIREBASE_CONFIG || !FIREBASE_CONFIG.apiKey || /YOUR_/.test(FIREBASE_CONFIG.apiKey)){
+  msg("로그인 설정이 아직 완료되지 않았습니다. (firebase-config.js)", true);
+} else {
+  var app = initializeApp(FIREBASE_CONFIG);
+  var auth = getAuth(app);
+  var db = getFirestore(app);
+  var suffix = "@" + ALLOWED_DOMAIN;
+  var allowed = function(u){ return u && u.emailVerified && u.email && u.email.toLowerCase().endsWith(suffix); };
+
+  btnLogin.addEventListener("click", async function(){
+    msg("로그인 창을 여는 중…"); btnLogin.disabled = true;
+    try {
+      var p = new GoogleAuthProvider();
+      p.setCustomParameters({ hd: ALLOWED_DOMAIN, prompt: "select_account" });
+      await signInWithPopup(auth, p);
+    } catch (e) {
+      btnLogin.disabled = false;
+      var c = e && e.code;
+      msg(c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request" ? "로그인이 취소되었습니다."
+        : c === "auth/popup-blocked" ? "팝업이 차단되었습니다. 팝업을 허용한 뒤 다시 시도해 주세요."
+        : c === "auth/unauthorized-domain" ? "이 주소는 로그인 허용 도메인에 등록되지 않았습니다."
+        : "로그인에 실패했습니다. 잠시 후 다시 시도해 주세요.", true);
+    }
+  });
+  $("btnLogout").addEventListener("click", async function(){ await signOut(auth); location.reload(); });
+
+  onAuthStateChanged(auth, async function(user){
+    if (!user){ btnLogin.disabled = false; msg(""); return; }
+    if (!allowed(user)){
+      await signOut(auth);
+      btnLogin.disabled = false;
+      msg(ALLOWED_DOMAIN + " 계정으로만 이용할 수 있습니다.", true);
+      return;
+    }
+    msg("데이터를 불러오는 중…"); btnLogin.disabled = true;
+    try {
+      var data = {};
+      for (var i = 0; i < YEARS.length; i++){
+        var s = await getDoc(doc(db, "datasets", String(YEARS[i])));
+        data[YEARS[i]] = s.exists() ? JSON.parse(s.data().json) : null;
+      }
+      $("userEmail").textContent = user.email;
+      $("userBar").hidden = false;
+      document.body.classList.add("authed");
+      window.startApp(data);
+      setupAdmin(user);
+    } catch (e) {
+      btnLogin.disabled = false;
+      msg(e && e.code === "permission-denied" ? "이 계정에는 열람 권한이 없습니다." : "데이터를 불러오지 못했습니다.", true);
+      try { await signOut(auth); } catch (x) {}
+    }
+  });
+
+  /* 관리자 데이터 업로드: 주소 끝에 ?admin=1 을 붙였을 때만 표시. 저장 권한은 Firestore 규칙이 판정합니다. */
+  function setupAdmin(user){
+    if (!/[?&]admin=1/.test(location.search)) return;
+    $("adminBox").hidden = false;
+    $("adminYear").innerHTML = YEARS.map(function(y){ return '<option value="' + y + '">' + y + "학년도</option>"; }).join("");
+    $("adminFile").addEventListener("change", function(){
+      var f = this.files[0]; if (!f) return;
+      var r = new FileReader(); r.onload = function(){ $("adminText").value = r.result; }; r.readAsText(f, "utf-8");
+    });
+    $("adminSave").addEventListener("click", async function(){
+      var out = $("adminMsg"), txt = $("adminText").value.trim();
+      try {
+        var o = JSON.parse(txt);
+        if (!o.levels || !o.colleges) throw new Error("levels/colleges 항목이 없습니다.");
+      } catch (e) { out.textContent = "JSON 형식 오류: " + e.message; return; }
+      this.disabled = true; out.textContent = "저장 중…";
+      try {
+        await setDoc(doc(db, "datasets", $("adminYear").value), { json: JSON.stringify(o), updatedAt: serverTimestamp(), updatedBy: user.email });
+        out.textContent = "저장했습니다. 페이지를 새로고침하면 반영됩니다.";
+      } catch (e) {
+        out.textContent = e && e.code === "permission-denied" ? "저장 권한이 없습니다(관리자 계정이 아닙니다)." : "저장에 실패했습니다.";
+      }
+      this.disabled = false;
+    });
+  }
+}
 </script>
 </body>
 </html>

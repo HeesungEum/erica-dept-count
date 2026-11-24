@@ -129,7 +129,7 @@
           <a class="card c-${esc(it.color)}" href="${esc(it.url)}" target="_blank" rel="noopener">
             <div class="top">
               <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[it.icon] || ICONS.link}</svg></div>
-              ${it.login ? `<span class="tag-login" title="한양대 구글 계정으로 로그인해야 볼 수 있습니다">${LOCK}구글 로그인 필요</span>` : ''}
+              ${it.login ? `<span class="tag-login" title="한양대 구글 계정으로 로그인해야 볼 수 있습니다">${LOCK}한양대 구글 로그인 필요</span>` : ''}
             </div>
             <h3>${esc(it.title)}</h3>
             <p>${esc(it.desc)}</p>

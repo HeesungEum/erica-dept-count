@@ -17,7 +17,7 @@ Firebase 프로젝트 `erica-curriculum`의 `erica-edu-portal` 사이트 → htt
 
 배포 직전에 `scripts/build-links.mjs`가 자동 실행되어 각 URL에 접속하고,
 구글 로그인 코드(Firebase `GoogleAuthProvider`, Google Identity Services 등)가 있으면
-카드에 **구글 로그인 필요** 태그를 붙입니다. 결과는 `public/links.json`에 저장됩니다.
+카드에 **한양대 구글 로그인 필요** 태그를 붙입니다. 결과는 `public/links.json`에 저장됩니다.
 
 - 자동 판별이 틀리면 항목에 `"login": true` 또는 `"login": false`를 적어 직접 지정합니다.
 - 페이지에 접속하지 못하면 이전 배포 때의 판별 값을 유지합니다.

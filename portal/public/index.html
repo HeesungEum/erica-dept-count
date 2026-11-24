@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERICA 교육전략기획팀 포털</title>
+<meta name="description" content="한양대학교 ERICA 교육전략기획팀이 운영하는 교육과정·AI 교육 관련 웹페이지 모음">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230f3160'/><text x='32' y='42' font-size='28' font-weight='800' text-anchor='middle' fill='%23c9a227' font-family='sans-serif'>E</text></svg>">
+<style>
+  :root{
+    --navy-900:#0b2340; --navy-800:#0f3160; --navy-700:#15417f; --blue-500:#2d6fbf;
+    --blue-100:#e8f0fb; --green-600:#3a8c5f; --green-100:#e7f5ec;
+    --gold-500:#c9a227; --gold-100:#faf3dd; --violet-600:#5b4bb3; --violet-100:#eeebfa;
+    --ink-900:#1b2430; --ink-700:#3a4453; --ink-500:#5c6779;
+    --line:#dde3ec; --bg:#f4f6fa; --card:#ffffff;
+    --radius:16px; --shadow:0 4px 18px rgba(15,49,96,0.08); --shadow-lg:0 14px 40px rgba(15,49,96,0.16);
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink-900);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+
+  header.hero{
+    background:
+      radial-gradient(1000px 400px at 88% -10%, rgba(201,162,39,0.28), transparent 60%),
+      linear-gradient(135deg,var(--navy-900),var(--navy-700) 60%,var(--blue-500));
+    color:#fff;padding:22px 20px 56px;border-radius:0 0 28px 28px;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:44px;}
+  .brand-mark{width:36px;height:36px;border-radius:9px;background:var(--gold-500);color:var(--navy-900);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:none;}
+  .brand b{font-size:15px;display:block;line-height:1.2;}
+  .brand span{font-size:11.5px;color:#bcd0ec;}
+  .badge{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);
+    color:#f4e9c9;font-size:12.5px;font-weight:700;padding:6px 13px;border-radius:999px;margin-bottom:16px;}
+  h1{font-size:clamp(26px,4.4vw,40px);margin:0 0 10px;font-weight:800;letter-spacing:-0.015em;}
+  .lead{font-size:clamp(14px,1.8vw,17px);color:#d8e4f6;max-width:640px;margin:0;}
+
+  main{max-width:var(--maxw);margin:-28px auto 0;padding:0 20px 56px;}
+  .group{margin-bottom:34px;}
+  .group-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:0 0 14px;padding-top:6px;}
+  .group-head h2{font-size:18px;margin:0;white-space:nowrap;color:var(--navy-900);}
+  .group-head span{font-size:13px;color:var(--ink-500);}
+  .group:first-of-type .group-head{background:var(--card);display:inline-flex;padding:8px 16px;border-radius:12px;box-shadow:var(--shadow);}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:16px;}
+  .card{
+    position:relative;display:flex;flex-direction:column;background:var(--card);
+    border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px 18px;
+    box-shadow:var(--shadow);transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    min-height:190px;min-width:0;
+  }
+  .card:hover,.card:focus-visible{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:#c3d4ec;outline:none;}
+  .card:focus-visible{box-shadow:0 0 0 3px rgba(45,111,191,0.35),var(--shadow-lg);}
+  .icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;flex:none;}
+  .icon svg{width:24px;height:24px;}
+  .c-blue .icon{background:var(--blue-100);color:var(--navy-700);}
+  .c-gold .icon{background:var(--gold-100);color:#8a6a0a;}
+  .c-green .icon{background:var(--green-100);color:var(--green-600);}
+  .c-violet .icon{background:var(--violet-100);color:var(--violet-600);}
+  .card h3{font-size:16.5px;margin:0 0 6px;color:var(--navy-900);line-height:1.4;}
+  .card p{font-size:13.6px;color:var(--ink-700);margin:0 0 16px;flex:1;}
+  .card .foot{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    border-top:1px dashed var(--line);padding-top:12px;font-size:12px;color:var(--ink-500);}
+  .card .host{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .card .go{display:inline-flex;align-items:center;gap:4px;font-weight:700;color:var(--blue-500);white-space:nowrap;}
+  .card:hover .go{color:var(--navy-700);}
+
+  footer{text-align:center;font-size:12.5px;color:var(--ink-500);padding:0 20px 36px;}
+
+  @media (max-width:560px){
+    header.hero{padding:18px 16px 50px;}
+    .brand{margin-bottom:32px;}
+    main{padding:0 16px 44px;}
+    .grid{grid-template-columns:1fr;}
+    .card{min-height:0;}
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-mark">HY</div>
+      <div><b>한양대학교 ERICA</b><span>교육전략기획팀</span></div>
+    </div>
+    <div class="badge">교육전략기획팀 웹페이지 모음</div>
+    <h1>ERICA 교육전략 포털</h1>
+    <p class="lead">교육과정 비전과 체계, AI/AX 교육, 중장기 로드맵, 수요조사와 학과 교육과정 관리 페이지를 한곳에서 확인하세요.</p>
+  </div>
+</header>
+
+<main id="portal"></main>
+
+<footer>© 한양대학교 ERICA 교육전략기획팀 · 각 카드를 누르면 새 탭에서 열립니다.</footer>
+
+<script>
+  // 링크를 추가·수정하려면 아래 목록만 고치면 됩니다.
+  const ICONS = {
+    compass:'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>',
+    tree:'<rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-3h14v3"/>',
+    chip:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M10 10h4v4h-4zM9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>',
+    route:'<circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H17a3.5 3.5 0 0 0 0-7H7a3.5 3.5 0 0 1 0-7h8.5"/>',
+    survey:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3h6v3H9zM9 11l1.5 1.5L13 10M9 16h6"/>',
+    book:'<path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5v-15Z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20v-3M9 8h7M9 12h5"/>'
+  };
+  const GROUPS = [
+    { title:'교육과정 전략·체계', note:'ERICA 교육과정의 방향과 구조', items:[
+      { title:'ERICA 교육과정 비전 및 핵심 전략', desc:'ERICA 교육과정이 지향하는 비전과 이를 실현하기 위한 핵심 전략을 소개합니다.', url:'https://erica-curriculum.web.app/', icon:'compass', color:'blue' },
+      { title:'ERICA 교육과정 체계도', desc:'교양·전공 교육과정의 구성과 연계 구조를 체계도로 한눈에 보여줍니다.', url:'https://erica-curriculum.web.app/framework', icon:'tree', color:'blue' },
+      { title:'ERICA AI/AX 교육체계 (AICA)', desc:'전 구성원을 위한 AI·AX 역량 교육체계와 단계별 교육 구성을 안내합니다.', url:'https://erica-curriculum.web.app/aica', icon:'chip', color:'violet' },
+      { title:'HY-ROUTE 2039', desc:'2039년을 향한 ERICA 교육 혁신 중장기 로드맵입니다.', url:'https://erica-curriculum.web.app/hyroute', icon:'route', color:'gold' },
+    ]},
+    { title:'조사·관리', note:'수요조사 및 학과 교육과정 운영', items:[
+      { title:'2026 ERICA AI 활용 및 지원 수요조사', desc:'교육 현장의 AI 활용 현황과 필요한 지원에 대한 수요를 조사합니다.', url:'https://erica-ai-survey-2026.erica-4043.chatgpt.site/', icon:'survey', color:'green' },
+      { title:'2025-2028 학과 교육과정 관리', desc:'2025-2028 학과별 교육과정 편성과 운영 현황을 관리합니다.', url:'https://erica-ai-survey-2026.erica-4043.chatgpt.site/', icon:'book', color:'green' },
+    ]},
+  ];
+
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const host = u => { try { const x = new URL(u); return x.host + (x.pathname === '/' ? '' : x.pathname); } catch { return u; } };
+  document.getElementById('portal').innerHTML = GROUPS.map(g => `
+    <section class="group">
+      <div class="group-head"><h2>${esc(g.title)}</h2><span>${esc(g.note)}</span></div>
+      <div class="grid">
+        ${g.items.map(it => `
+          <a class="card c-${it.color}" href="${esc(it.url)}" target="_blank" rel="noopener">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[it.icon]}</svg></div>
+            <h3>${esc(it.title)}</h3>
+            <p>${esc(it.desc)}</p>
+            <div class="foot"><span class="host">${esc(host(it.url))}</span><span class="go">바로가기 →</span></div>
+          </a>`).join('')}
+      </div>
+    </section>`).join('');
+</script>
+</body>
+</html>

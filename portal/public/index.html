@@ -59,6 +59,12 @@
   .card:focus-visible{box-shadow:0 0 0 3px rgba(45,111,191,0.35),var(--shadow-lg);}
   .icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;flex:none;}
   .icon svg{width:24px;height:24px;}
+  .card .top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px;}
+  .card .top .icon{margin-bottom:0;}
+  .tag-login{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;white-space:nowrap;
+    color:#9a3412;background:#fff1e6;border:1px solid #fbd5b5;padding:4px 10px;border-radius:999px;}
+  .tag-login svg{width:12px;height:12px;}
+  .error{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;text-align:center;color:var(--ink-500);}
   .c-blue .icon{background:var(--blue-100);color:var(--navy-700);}
   .c-gold .icon{background:var(--gold-100);color:#8a6a0a;}
   .c-green .icon{background:var(--green-100);color:var(--green-600);}
@@ -100,7 +106,7 @@
 <footer>© 한양대학교 ERICA 교육전략기획팀 · 각 카드를 누르면 새 탭에서 열립니다.</footer>
 
 <script>
-  // 링크를 추가·수정하려면 아래 목록만 고치면 됩니다.
+  // 링크 목록은 portal/links.json 에서 관리합니다 (배포 시 public/links.json 으로 자동 생성).
   const ICONS = {
     compass:'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>',
     tree:'<rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-3h14v3"/>',
@@ -108,37 +114,34 @@
     route:'<circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H17a3.5 3.5 0 0 0 0-7H7a3.5 3.5 0 0 1 0-7h8.5"/>',
     survey:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3h6v3H9zM9 11l1.5 1.5L13 10M9 16h6"/>',
     count:'<path d="M4 20h16"/><rect x="5" y="11" width="3.5" height="6" rx="1"/><rect x="10.25" y="7" width="3.5" height="10" rx="1"/><rect x="15.5" y="4" width="3.5" height="13" rx="1"/>',
+    link:'<path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/>',
     book:'<path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5v-15Z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20v-3M9 8h7M9 12h5"/>'
   };
-  const GROUPS = [
-    { title:'교육과정 전략·체계', note:'ERICA 교육과정의 방향과 구조', items:[
-      { title:'ERICA 교육과정 비전 및 핵심 전략', desc:'ERICA 교육과정이 지향하는 비전과 이를 실현하기 위한 핵심 전략을 소개합니다.', url:'https://erica-curriculum.web.app/', icon:'compass', color:'blue' },
-      { title:'ERICA 교육과정 체계도', desc:'교양·전공 교육과정의 구성과 연계 구조를 체계도로 한눈에 보여줍니다.', url:'https://erica-curriculum.web.app/framework', icon:'tree', color:'blue' },
-      { title:'ERICA AI/AX 교육체계 (AICA)', desc:'전 구성원을 위한 AI·AX 역량 교육체계와 단계별 교육 구성을 안내합니다.', url:'https://erica-curriculum.web.app/aica', icon:'chip', color:'violet' },
-      { title:'HY-ROUTE 2039', desc:'2039년을 향한 ERICA 교육 혁신 중장기 로드맵입니다.', url:'https://erica-curriculum.web.app/hyroute', icon:'route', color:'gold' },
-    ]},
-    { title:'조사·관리', note:'수요조사 및 학과 교육과정 운영', items:[
-      { title:'2026 ERICA AI 활용 및 지원 수요조사', desc:'교육 현장의 AI 활용 현황과 필요한 지원에 대한 수요를 조사합니다.', url:'https://erica-ai-survey-2026.erica-4043.chatgpt.site/', icon:'survey', color:'green' },
-      { title:'2025-2028 학과 교육과정 관리', desc:'2025-2028 학과별 교육과정 편성과 운영 현황을 관리합니다.', url:'https://erica-credit-status.web.app/', icon:'book', color:'green' },
-      { title:'ERICA 학과 수 산정', desc:'연도별 ERICA 학부 학과 수를 전공학부·자율전공학부 구분 기준으로 산정합니다. (한양대 구글 계정 로그인 필요)', url:'https://erica-dept-count.web.app/', icon:'count', color:'green' },
-    ]},
-  ];
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const host = u => { try { const x = new URL(u); return x.host + (x.pathname === '/' ? '' : x.pathname); } catch { return u; } };
-  document.getElementById('portal').innerHTML = GROUPS.map(g => `
+  const LOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+  const render = groups => groups.map(g => `
     <section class="group">
       <div class="group-head"><h2>${esc(g.title)}</h2><span>${esc(g.note)}</span></div>
       <div class="grid">
         ${g.items.map(it => `
-          <a class="card c-${it.color}" href="${esc(it.url)}" target="_blank" rel="noopener">
-            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[it.icon]}</svg></div>
+          <a class="card c-${esc(it.color)}" href="${esc(it.url)}" target="_blank" rel="noopener">
+            <div class="top">
+              <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[it.icon] || ICONS.link}</svg></div>
+              ${it.login ? `<span class="tag-login" title="한양대 구글 계정으로 로그인해야 볼 수 있습니다">${LOCK}구글 로그인 필요</span>` : ''}
+            </div>
             <h3>${esc(it.title)}</h3>
             <p>${esc(it.desc)}</p>
             <div class="foot"><span class="host">${esc(host(it.url))}</span><span class="go">바로가기 →</span></div>
           </a>`).join('')}
       </div>
     </section>`).join('');
+  const root = document.getElementById('portal');
+  fetch('links.json', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(d => { root.innerHTML = render(d.groups); })
+    .catch(() => { root.innerHTML = '<p class="error">링크 목록을 불러오지 못했습니다. 잠시 후 새로고침해 주세요.</p>'; });
 </script>
 </body>
 </html>

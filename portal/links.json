@@ -1,0 +1,66 @@
+{
+  "_안내": "포털 링크 목록. 항목 추가 후 firebase deploy 하면 구글 로그인 필요 여부가 자동 판별됩니다. 자동 판별을 무시하려면 항목에 \"login\": true 또는 false 를 직접 지정하세요.",
+  "groups": [
+    {
+      "title": "교육과정 전략·체계",
+      "note": "ERICA 교육과정의 방향과 구조",
+      "items": [
+        {
+          "title": "ERICA 교육과정 비전 및 핵심 전략",
+          "desc": "ERICA 교육과정이 지향하는 비전과 이를 실현하기 위한 핵심 전략을 소개합니다.",
+          "url": "https://erica-curriculum.web.app/",
+          "icon": "compass",
+          "color": "blue"
+        },
+        {
+          "title": "ERICA 교육과정 체계도",
+          "desc": "교양·전공 교육과정의 구성과 연계 구조를 체계도로 한눈에 보여줍니다.",
+          "url": "https://erica-curriculum.web.app/framework",
+          "icon": "tree",
+          "color": "blue"
+        },
+        {
+          "title": "ERICA AI/AX 교육체계 (AICA)",
+          "desc": "전 구성원을 위한 AI·AX 역량 교육체계와 단계별 교육 구성을 안내합니다.",
+          "url": "https://erica-curriculum.web.app/aica",
+          "icon": "chip",
+          "color": "violet"
+        },
+        {
+          "title": "HY-ROUTE 2039",
+          "desc": "2039년을 향한 ERICA 교육 혁신 중장기 로드맵입니다.",
+          "url": "https://erica-curriculum.web.app/hyroute",
+          "icon": "route",
+          "color": "gold"
+        }
+      ]
+    },
+    {
+      "title": "조사·관리",
+      "note": "수요조사 및 학과 교육과정 운영",
+      "items": [
+        {
+          "title": "2026 ERICA AI 활용 및 지원 수요조사",
+          "desc": "교육 현장의 AI 활용 현황과 필요한 지원에 대한 수요를 조사합니다.",
+          "url": "https://erica-ai-survey-2026.erica-4043.chatgpt.site/",
+          "icon": "survey",
+          "color": "green"
+        },
+        {
+          "title": "2025-2028 학과 교육과정 관리",
+          "desc": "2025-2028 학과별 교육과정 편성과 운영 현황을 관리합니다.",
+          "url": "https://erica-credit-status.web.app/",
+          "icon": "book",
+          "color": "green"
+        },
+        {
+          "title": "ERICA 학과 수 산정",
+          "desc": "연도별 ERICA 학부 학과 수를 전공학부·자율전공학부 구분 기준으로 산정합니다.",
+          "url": "https://erica-dept-count.web.app/",
+          "icon": "count",
+          "color": "green"
+        }
+      ]
+    }
+  ]
+}
